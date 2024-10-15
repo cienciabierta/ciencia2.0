@@ -1,139 +1,292 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IDApp 1.0</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: #f0f2f5;
+      color: #333;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      background-color: #fff;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      border-radius: 15px;
+      max-width: 800px;
+      width: 100%;
+      padding: 40px;
+      margin: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #0056b3;
+      margin-bottom: 25px;
+      font-size: 1.5em;
+    }
+
+    .user-input {
+      margin-bottom: 25px;
+    }
+
+    .user-input p {
+      font-size: 1em;
+      margin-bottom: 12px;
+      color: #555;
+      background-color: #e9f1fb;
+      padding: 15px;
+      border-radius: 10px;
+      line-height: 1.6;
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    textarea {
+      width: 100%;
+      height: 120px;
+      padding: 12px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      font-size: 1em;
+      resize: vertical;
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    button {
+      background-color: #0056b3;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 12px 25px;
+      font-size: 0.9em;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.2s;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    button:hover {
+      background-color: #004494;
+      transform: translateY(-2px);
+    }
+
+    .results {
+      margin-top: 25px;
+      padding: 25px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      background-color: #f9f9f9;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .explicacion {
+      font-style: normal;
+      color: #333;
+      line-height: 1.8;
+      font-size: 0.9em;
+    }
+
+    .paratexto {
+      margin-top: 10px;
+      padding: 10px;
+      border-left: 5px solid #0056b3;
+      background-color: #f1f1f1;
+      border-radius: 10px;
+      font-style: normal;
+      color: #333;
+      line-height: 1.8;
+      font-size: 0.9em;
+    }
+
+    $1
+  font-size: 0.9em;
+
+    p {
+      margin: 10px 0;
+    }
+
+    .category-title {
+      margin-top: 20px;
+  font-size: 1em;
+  color: #0056b3;
+  font-weight: bold;
+  margin: 25px 0 15px 0;
+}
+  </style>
+</head>
+
 <body>
-  <!DOCTYPE html>
-  <html lang="es">
+  <div class="container">
+    <h1>IDApp 1.0 - Intérprete de Discursos Antivacunas</h1>
 
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IDApp 1.0</title>
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        margin: 20px;
-      }
+    <!-- Input del usuario -->
+    <div class="user-input">
+      <p>IDApp 1.0 es una herramienta diseñada para identificar e interpretar discursos antivacunas. Para ampliar la interpretación, visita nuestro <a href="https://github.com/cienciabierta/ciencia2.0/tree/main" target="_blank">informe extendido en GitHub</a>. Allí podrás participar del proyecto de ciencia abierta para revisar y mejorar el intérprete.'</p>
+      <textarea id="userInput" placeholder="Escriba el enunciado aquí..."></textarea><br>
+      <button onclick="analyzeStatement()">Interpretar</button>
+    </div>
 
-      h1 {
-        text-align: center;
-      }
+    <!-- Resultado -->
+    <div id="resultContainer" class="results"></div>
 
-      .container {
-        max-width: 800px;
-        margin: 0 auto;
-      }
+    <!-- Código JS -->
+    <script>
+      // Diccionario de categorías con palabras clave y explicaciones
+      const categories = {
+        'Microchips y Vigilancia': {
+          keywords: ['microchips', 'control con microchips', 'chip', 'chips', 'rastrear a la población', 'microchips en las vacunas', 'seguimiento tecnológico', 'control mediante tecnología', 'microchip en el cuerpo', 'las vacunas contienen microchips', 'nos están implantando microchips con las vacunas', 'las vacunas se usan para insertar microchips', 'las vacunas contienen tecnología de control', 'las vacunas tienen dispositivos para controlar a las personas', 'las vacunas son usadas para vigilancia masiva', 'nos están monitoreando a través de las vacunas', 'las vacunas contienen tecnología de seguimiento', 'nos están implantando dispositivos de rastreo con las vacunas', 'las vacunas están diseñadas para implantar microchips', 'las vacunas nos están controlando con microchips', 'las vacunas contienen tecnología para vigilar a la población', 'las vacunas son parte de un plan para rastrear a las personas', 'las vacunas tienen microchips para controlar a la población', 'las vacunas contienen dispositivos de rastreo', 'nos están vigilando a través de los microchips en las vacunas', 'las vacunas están diseñadas para implantar dispositivos de control', 'las vacunas se usan para implantar tecnología de seguimiento', 'las vacunas contienen microchips para monitorear a la población', 'nos están controlando a través de las vacunas con microchips', 'las vacunas están implantando tecnología de rastreo en las personas', 'las vacunas contienen microchips que monitorean a las personas', 'nos están insertando microchips con las vacunas para controlarnos', 'las vacunas están implantando dispositivos de vigilancia', 'las vacunas son usadas para rastrearnos a través de microchips', 'las vacunas están equipadas con tecnología de seguimiento', 'las vacunas contienen microchips que envían datos a los gobiernos', 'las vacunas están implantando tecnología de monitoreo en las personas', 'las vacunas contienen tecnología secreta para controlar a la población', 'las vacunas son parte de un plan global para implantar microchips', 'nos están controlando con microchips a través de las vacunas'],
+          explanation: 'Este enunciado sugiere que las vacunas contienen microchips para monitorear a la población. Una de las teorías conspirativas más difundidas en los discursos <strong>antivacunas</strong> es la creencia de que las vacunas contienen <strong>microchips</strong> u otros dispositivos que permiten la <strong>vigilancia masiva</strong> y el control de la población. Esta teoría sugiere que las vacunas, particularmente las desarrolladas para la <strong>COVID-19</strong>, están diseñadas para insertar dispositivos de seguimiento en los cuerpos de las personas, con el objetivo de <strong>controlar</strong> sus movimientos o <strong>monitorear</strong> su salud sin su consentimiento. Esta teoría ha sido alimentada por figuras públicas y ciertos grupos antivacunas, quienes afirman que organizaciones como los gobiernos o las <strong>corporaciones tecnológicas</strong> utilizan las vacunas como un medio para establecer una forma de <strong>control social</strong> a través de la <strong>vigilancia electrónica</strong>. Los defensores de esta teoría a menudo señalan como "prueba" la participación de organizaciones como la <strong>Fundación Bill y Melinda Gates</strong> en el desarrollo de vacunas y la tecnología médica. Sin embargo, la <strong>comunidad científica</strong> ha desmentido por completo estas afirmaciones. No existe ninguna evidencia de que las vacunas contengan microchips ni de que haya un intento de <strong>vigilancia</strong> o <strong>control</strong> a través de ellas. Las vacunas contra la COVID-19 y otras enfermedades han sido desarrolladas siguiendo estrictos protocolos científicos y no incluyen tecnología de rastreo o dispositivos de monitoreo. Las agencias de salud, como la <strong>Organización Mundial de la Salud (OMS)</strong> y los <strong>Centros para el Control y la Prevención de Enfermedades (CDC)</strong>, han afirmado de manera clara que no existen <strong>microchips</strong> en las vacunas y que estas teorías no tienen base en la realidad. Además, las vacunas son sometidas a controles rigurosos y transparentes, que incluyen la revisión de sus componentes por autoridades sanitarias independientes.'
+        },
+        'Teoría de la Conspiración': {
+          keywords: ['nuevo orden mundial', 'infectadura', 'manipulación', 'engaño', 'manipular', 'someter', 'terrorismo', 'terrorismo psicológico', 'denuncia', 'someter', 'propaganda', 'genocidio', 'sometimiento', 'plandemia', 'poder', 'plan', 'control', 'reducen la población', 'manipulación', 'control', 'manipulación', 'nuevo orden mundial', 'plandemia', 'agenda 2030', 'reducen la población', 'despoblación', 'reducir la fertilidad', 'crimen organizado', 'someter a la humanidad', 'conspiración para dominar', 'control mundial', 'elites globales', 'plan genocida', 'conspiración', 'dominio de la población', 'Las farmacéuticas están lucrando con las vacunas a costa de la salud pública', 'El COVID-19 fue creado para obligar a la vacunación masiva y controlar a la población', 'Nos están controlando a través de las vacunas y la red 5G', 'Los medios de comunicación están ocultando los efectos adversos de las vacunas', 'inmunidad', 'rebaño', 'mentira', 'farsa', 'industria farmacéutica', 'laboratorio', 'rentabilidad', 'gobierno', 'gobiernos', 'dinero', 'intereses financieros', 'fabricantes de vacunas', 'eugenesia', 'comunista', 'socialista', 'soviético', 'soviética', 'cuarentena', 'confinamiento', 'kirchnerista', 'peronista', 'control', 'control poblacional', 'nuevo orden mundial', 'plandemia', 'las vacunas son una herramienta de control', 'las vacunas están diseñadas para reducir la población', 'las vacunas forman parte de un plan global', 'el gobierno utiliza las vacunas para controlarnos', 'las élites están detrás de las vacunas', 'las vacunas son parte de una conspiración para eliminar a la población', 'las vacunas están diseñadas para enfermar a la gente', 'las vacunas son parte de un plan para disminuir la fertilidad', 'las vacunas se usan para controlar a la población', 'libertad', 'la vacunación masiva es un experimento de control social', 'las vacunas son parte de una agenda oculta', 'el objetivo de las vacunas es el control masivo de la población', 'la agenda 2030 usa las vacunas para controlar a la humanidad', 'las farmacéuticas están conspirando para ganar dinero con las vacunas', 'las vacunas son parte de una conspiración global', 'las vacunas son un experimento para manipular a la población', 'las vacunas se usan para exterminar a la población', 'las vacunas forman parte de un complot para destruir la humanidad', 'el plan de las vacunas es reducir la fertilidad y la población mundial', 'las vacunas son una estrategia para la dominación mundial', 'las vacunas son parte de una conspiración entre los gobiernos y las farmacéuticas', 'las vacunas se utilizan para implantar microchips y controlarnos', 'las vacunas son parte de una conspiración para manipular el ADN', 'las vacunas están diseñadas para matar a la gente', 'las vacunas son un fraude organizado por las grandes farmacéuticas', 'las vacunas son parte de una operación secreta para controlar a la población', 'las vacunas son una herramienta de manipulación masiva', 'las vacunas son una conspiración de las élites globales', 'el objetivo de las vacunas es disminuir la población mundial', 'las vacunas son parte de una operación secreta para controlar el mundo', 'la vacunación es una conspiración para someter a la humanidad', 'las vacunas están diseñadas para modificar el ADN de las personas', 'las vacunas son parte de un plan para el control de la mente', 'terror', 'terrorismo psicológico', 'terrorismo', 'las vacunas forman parte de una agenda de control de la población', 'las vacunas son utilizadas para manipular genéticamente a la población', 'las vacunas se usan para esterilizar a la gente', 'milei', 'bolsonaro', 'trump', 'johnson', 'vacuna china', 'reclusión', 'genocidio', 'genocida', 'cavernicola', 'anticuarentena', 'liberticida', 'vacuna rusa', 'Pfizer', 'Bill Gates', 'Microsoft', 'Sputnik', 'AstraZeneca', 'el gobierno está usando las vacunas para controlar la fertilidad', 'las vacunas son parte de una conspiración para el control social', 'las vacunas forman parte de una operación de exterminio masivo', 'las vacunas son una estrategia para reducir el número de personas en el mundo', 'las vacunas son un engaño para el control de la población', 'las vacunas forman parte de un plan para controlar el mundo a través de la salud', 'la ciencia miente', 'los médicos mienten', 'mentira', 'mentir', 'gobiernos', 'farmacéuticas', 'dominio', 'corporaciones'],
+          explanation: 'Este enunciado sugiere que las vacunas son parte de una conspiración global. Las <strong>teorías de la conspiración</strong> relacionadas con las vacunas son un fenómeno frecuente en los discursos <strong>antivacunas</strong>, donde se sugiere que las vacunas forman parte de un complot más amplio por parte de gobiernos, <strong>farmacéuticas</strong> u otras organizaciones para <strong>controlar</strong>, <strong>manipular</strong> o <strong>dañar</strong> a la población. Estas teorías incluyen ideas como que las vacunas son utilizadas para reducir la población, insertar <strong>microchips</strong> o modificar el comportamiento de las personas. Uno de los conceptos centrales de estas teorías es que las instituciones oficiales están ocultando la "verdad" sobre los <strong>peligros</strong> de las vacunas, y que la información oficial está <strong>manipulada</strong> para proteger los intereses de las <strong>élites</strong>. Las teorías de la conspiración suelen apoyarse en la <strong>desconfianza epistémica</strong>, es decir, la falta de confianza en los <strong>científicos</strong>, los <strong>gobiernos</strong> y las <strong>agencias de salud pública</strong>. Desde la perspectiva de la <strong>comunidad científica</strong>, las teorías de la conspiración carecen de fundamento y no tienen respaldo en la evidencia. La gran mayoría de las afirmaciones conspirativas son fácilmente refutadas por los datos y los estudios científicos rigurosos que demuestran la <strong>seguridad</strong> y <strong>eficacia</strong> de las vacunas. Organizaciones como la <strong>Organización Mundial de la Salud (OMS)</strong> y los <strong>Centros para el Control y la Prevención de Enfermedades (CDC)</strong> han publicado numerosas investigaciones que desmienten estas teorías, reafirmando la integridad de los procesos de desarrollo, prueba y aprobación de las vacunas. Además, las teorías de la conspiración se caracterizan por su <strong>irrefutabilidad</strong>, lo que significa que los defensores de estas creencias suelen rechazar cualquier evidencia que contradiga sus ideas, afirmando que dicha evidencia es parte del propio encubrimiento.'
+        },
+        'Efectos adversos': {
+          keywords: ['enferman', 'matan', 'autismo', 'trastornos', 'muertes', 'súbitas', 'enfermedad', 'infarto', 'sarampión', 'viruela', 'pandemias', 'nuevas', 'enfermedades', 'parálisis', 'cáncer', 'autoinmunes', 'problemas', 'cardíacos', 'virus', 'coágulos', 'trombosis', 'infartos', 'muerte', 'linfoma', 'tumor', 'óseo', 'cerebral', 'alérgicas', 'neuropsiquiátricas', 'neurodesarrollo', 'insuficiencia', 'ovárica', 'provocan', 'producen', 'discapacidad', 'relacionadas', 'aumento', 'miocarditis', 'diseñadas', 'reducir', 'fertilidad', 'mujeres', 'hijo', 'desarrolló', 'recibir', 'meses', 'aumentan', 'infertilidad', 'efectos', 'adversos', 'tumores', 'parálisis', 'neurológicos', 'mutaciones', 'genéticas', 'niños', 'crónicas', 'neurodegenerativas', 'desarrollo', 'alergias', 'complicaciones', 'graves', 'provocada', 'respiratorios', 'virales', 'población', 'vacunada', 'riesgo', 'facial', 'derrames', 'cerebrales', 'discapacidades', 'permanentes', 'incidencia', 'inmunológicas', 'encefalitis', 'provocadas', 'secuela', 'vacunación', 'empeoramiento', 'salud', 'menstruación', 'COVID', 'elementos', 'masculina', 'vacunados', 'muriendo', 'secundarios', 'peligrosas', 'irreparables', 'venenosas', 'digestivos', 'deficiencia', 'inmunológica', 'irreversibles', 'mortalidad', 'matar', 'enfermar', 'esterilizan', 'esterilizar', 'casos', 'crónicas', 'sistema', 'diagnosticado', 'aumentó', 'peligro', 'varicela', 'coágulos', 'encefalitis'],
+          explanation: 'Este enunciado sugiere que las vacunas pueden causar enfermedades o, incluso, la muerte. Los <strong>efectos adversos</strong> se refieren a las reacciones no deseadas que pueden surgir después de la administración de una vacuna. Estos efectos pueden variar desde reacciones leves, como dolor en el sitio de la inyección o fiebre leve, hasta eventos más graves, aunque extremadamente raros, como reacciones alérgicas severas. En los discursos <strong>antivacunas</strong>, los efectos adversos son presentados como una prueba de que las vacunas son peligrosas, sugiriendo que causan <strong>enfermedades graves</strong>, como <strong>autismo</strong>, <strong>trastornos neurológicos</strong>, o <strong>muerte súbita</strong>. Sin embargo, la <strong>comunidad científica</strong> ha demostrado repetidamente que las vacunas son <strong>seguras</strong> y que los efectos adversos graves son extremadamente infrecuentes. Los estudios han concluido que los beneficios de la vacunación en la prevención de enfermedades superan con creces los riesgos asociados a estos raros efectos secundarios. Los organismos internacionales de salud, como la <strong>Organización Mundial de la Salud (OMS)</strong> y los <strong>Centros para el Control y la Prevención de Enfermedades (CDC)</strong>, confirman que la mayoría de los efectos adversos son leves y pasajeros, mientras que los efectos más serios son monitoreados cuidadosamente y constituyen una fracción mínima de los millones de vacunas administradas anualmente. Para ampliar la interpretación, visite nuestro <a href="https://github.com/cienciabierta/ciencia2.0/tree/main" target="_blank">informe extendido en GitHub</a>. Allí puede participar del proyecto de ciencia abierta para revisar y mejorar el intérprete.'
+        },
+        'Composición de las vacunas': {
+          keywords: ['altamente', 'envenenan', 'intoxican', 'aluminio', 'animales', 'arsénico', 'bebés', 'causa', 'cerebral', 'cerebro', 'componentes', 'contienen', 'cognitivo', 'cuerpo', 'dañinas', 'dañinos', 'dañan', 'desarrollo', 'daño', 'enferman', 'enfermedad', 'enfermedades', 'extraño', 'formaldehído', 'fragmentos', 'grafeno', 'graves', 'ingredientes', 'llenas', 'materiales', 'metálicas', 'metales', 'mercurio', 'mental', 'muertes', 'nanopartículas', 'neurodegenerativas', 'neurológicos', 'neurotóxico', 'neurotoxinas', 'nocivas', 'peligroso', 'peligrosas', 'peligrosos', 'pesados', 'problemas', 'probadas', 'productos', 'provoca', 'químicos', 'relacionado', 'salud', 'sistema', 'substancias', 'tóxicas', 'sustancias', 'viral', 'virus', 'veneno', 'venenos'],
+          explanation: 'Este enunciado afirma que las vacunas contienen ingredientes peligrosos como aluminio, mercurio y metales pesados, lo cual es parte del discurso antivacunas. El debate sobre los ingredientes de las vacunas es un aspecto central en muchos discursos antivacunas. Quienes se oponen a la vacunación suelen argumentar que <strong>las vacunas contienen sustancias tóxicas o dañinas para la salud</strong>, lo que contribuye a su <strong>desconfianza</strong> en el sistema de salud y en las instituciones que promueven las campañas de vacunación. Los ingredientes que generan más preocupación en los discursos antivacunas suelen incluir componentes como el aluminio, el mercurio (en su forma de timerosal), y el formaldehído. <strong>Se argumenta que estas sustancias pueden causar daño neurológico o enfermedades crónicas</strong> como el autismo, el cáncer, y otros trastornos neurológicos o autoinmunes. Sin embargo,<strong> la comunidad científica ha demostrado repetidamente que estos ingredientes se encuentran en cantidades seguras dentro de las vacunas</strong> y que cumplen funciones importantes, como mejorar la respuesta inmune del cuerpo o mantener la estabilidad de la vacuna. Para ampliar la interpretación, visite nuestro <a href="https://github.com/cienciabierta/ciencia2.0/tree/main" target="_blank">informe extendido en GitHub</a>. Allí puede participar del proyecto de ciencia abierta para revisar y mejorar el intérprete.'
+        },
+        'Experimentos': {
+          keywords: ['experimento', 'experimentar', 'conejillos', 'indias', 'probadas', 'ensayos', 'insuficientes', 'pruebas', 'validadas', 'test', 'respaldo', 'experimentación', 'global', 'parte', 'masivo', 'aprobadas', 'manera', 'segura', 'usados', 'experimentales', 'riesgo', 'salud', 'médico', 'precedentes', 'clínicos', 'adecuados', 'probar', 'seguras', 'testeadas', 'correctamente', 'peligrosas', 'autorizado', 'humanos', 'consentimiento', 'inseguras', 'test', 'sucede', 'suficientemente', 'investigadas', 'lanzadas', 'gran', 'farmacéutico', 'sujetos', 'prueba', 'población', 'gran', 'escala', 'forzados', 'participar', 'inyectando', 'consecuencias', 'completamente', 'testeadas', 'lanzarlas', 'farmacéutico'],
+          explanation: 'Este enunciado sugiere que las vacunas son parte de un experimento masivo sin pruebas suficientes. En los discursos <strong>antivacunas</strong>, a menudo se afirma que las vacunas forman parte de un <strong>experimento masivo</strong> o que las personas vacunadas son utilizadas como <strong>conejillos de indias</strong> para probar sustancias no seguras. Estas afirmaciones sugieren que las vacunas se distribuyen sin haber pasado por las pruebas necesarias o que se realizan <strong>experimentos encubiertos</strong> en la población. Sin embargo, la <strong>comunidad científica</strong> y los organismos reguladores internacionales, como la <strong>Administración de Alimentos y Medicamentos (FDA)</strong> y la <strong>Agencia Europea de Medicamentos (EMA)</strong>, confirman que las vacunas deben pasar por rigurosos <strong>ensayos clínicos</strong> antes de ser aprobadas para su uso en la población. Estos ensayos incluyen varias fases de pruebas en animales y humanos para garantizar que las vacunas sean <strong>seguras</strong> y <strong>eficaces</strong>. Además, incluso después de su aprobación, las vacunas continúan siendo monitoreadas a través de sistemas de <strong>vigilancia post-comercialización</strong> para detectar posibles efectos secundarios a largo plazo. Afirmaciones de que las vacunas son parte de un <strong>experimento global</strong> no tienen fundamento en la evidencia científica. Las pruebas realizadas antes de la distribución masiva de las vacunas son exhaustivas, y cualquier efecto adverso que pueda surgir se investiga y se documenta. Las vacunas aprobadas para uso público son el resultado de <strong>décadas de investigación</strong> y de estrictos procesos regulatorios.'
+        },
+        'Alteración genética': {
+          keywords: ['alteración genética', 'adn', 'cambio de ADN', 'vacuna cambia ADN', 'modificación del ADN', 'alterar genes', 'vacunas que alteran ADN', 'mutaciones genéticas', 'vacunas que manipulan ADN', 'las vacunas modifican el ADN', 'las vacunas alteran el ADN', 'las vacunas cambian el ADN', 'las vacunas manipulan el ADN', 'las vacunas afectan la genética', 'las vacunas modifican el código genético', 'las vacunas son usadas para manipular el ADN', 'las vacunas cambian nuestra estructura genética', 'las vacunas provocan mutaciones en el ADN', 'las vacunas causan alteraciones genéticas', 'las vacunas alteran los genes humanos', 'las vacunas están diseñadas para manipular el ADN humano', 'las vacunas afectan los genes de las personas', 'las vacunas son un experimento genético', 'las vacunas producen cambios genéticos', 'las vacunas cambian la genética humana', 'las vacunas modifican el genoma', 'las vacunas alteran la información genética', 'las vacunas pueden cambiar el ADN', 'las vacunas están diseñadas para manipular los genes', 'las vacunas son una forma de ingeniería genética', 'las vacunas afectan el ADN humano', 'las vacunas alteran el genoma de las personas', 'las vacunas están diseñadas para modificar los genes', 'las vacunas provocan cambios en el ADN', 'las vacunas están alterando el material genético de las personas', 'las vacunas contienen sustancias que modifican el ADN', 'las vacunas manipulan nuestro ADN sin nuestro consentimiento', 'las vacunas están alterando la genética de la humanidad', 'las vacunas provocan mutaciones genéticas', 'las vacunas están siendo usadas para modificar genéticamente a la población', 'las vacunas pueden causar cambios permanentes en el ADN', 'las vacunas alteran el ADN y causan enfermedades', 'las vacunas cambian el ADN y provocan problemas de salud', 'las vacunas afectan el ADN de las futuras generaciones', 'las vacunas están alterando la información genética de las personas', 'las vacunas causan mutaciones genéticas peligrosas', 'las vacunas están diseñadas para cambiar el ADN humano'],
+          explanation: 'Este enunciado sugiere que las vacunas pueden alterar el ADN humano y provocar cambios genéticos.Uno de los mitos más frecuentes en los discursos <strong>antivacunas</strong> es la afirmación de que las vacunas pueden causar una <strong>alteración genética</strong> en las personas que las reciben. Se sostiene que ciertos componentes de las vacunas, como el ARN mensajero (<strong>ARNm</strong>) en las vacunas contra la COVID-19, pueden modificar el <strong>ADN humano</strong> y alterar la estructura genética de los individuos. Sin embargo, la <strong>comunidad científica</strong> ha dejado claro que estas afirmaciones no tienen base científica. Las vacunas de <strong>ARNm</strong>, como las de Pfizer-BioNTech y Moderna, funcionan instruyendo a las células para que produzcan una proteína del virus, lo que desencadena una respuesta inmune. Este proceso no afecta ni interactúa con el <strong>ADN</strong> humano de ninguna manera. El <strong>ARNm</strong> no ingresa al núcleo de las células, donde se encuentra el ADN, y además se descompone rápidamente tras cumplir su función. Diversas instituciones científicas, como la <strong>Organización Mundial de la Salud (OMS)</strong> y los <strong>Centros para el Control y la Prevención de Enfermedades (CDC)</strong>, han afirmado que las vacunas basadas en ARNm son <strong>seguras</strong> y no tienen la capacidad de <strong>modificar el ADN</strong> o causar una alteración genética.'
+        },
+        'Censura': {
+          keywords: ['cuestionan', 'redes', 'callar', 'callan', 'silencio', 'sociales', 'expertos', 'silenciadas', 'prohibieron', 'antivacunas', 'corporaciones', 'farmacéuticas', 'mediático', 'contenido', 'ocultan', 'gobierno', 'reprimida', 'permiten', 'controlan', 'pública', 'censuran', 'comunicación', 'informativo', 'peligros', 'debate', 'hablan', 'ocultar', 'adversos', 'gobiernos', 'diseñado', 'manipula', 'críticos', 'medios', 'manipulan', 'científica', 'bloqueada', 'efectos', 'voces', 'secundarios', 'global', 'censura', 'manipulación', 'falsa', 'médicos', 'desinformación', 'plataformas', 'suprimida', 'hablar', 'sistema', 'bloquean', 'mienten', 'mordaza', 'manipulados', 'silencio mediático', 'narrativa', 'estrategia', 'información', 'crítica', 'bloqueo', 'silenciados', 'disidencia', 'impide', 'negativos', 'daños', 'eliminan', 'científicos', 'comprados', 'silenciamiento', 'silencian', 'parte', 'público', 'opinión', 'verdad', 'tergiversación', 'datos'],
+          explanation: 'Este enunciado sugiere que hay una censura o manipulación de la verdad por parte de los medios o los gobiernos. El tema de la <strong>censura</strong> es un componente frecuente en los discursos <strong>antivacunas</strong>, donde se afirma que los gobiernos, las <strong>empresas tecnológicas</strong> y los <strong>medios de comunicación</strong> ocultan información sobre los peligros de las vacunas y su impacto real en la salud pública. Los defensores de esta teoría alegan que existe una estrategia coordinada para <strong>silenciar</strong> a los expertos que cuestionan la seguridad y eficacia de las vacunas, y para <strong>reprimir</strong> las voces que difunden narrativas antivacunas en plataformas como redes sociales o medios alternativos. Una de las principales quejas en estos discursos es que las personas que cuestionan las vacunas son censuradas en <strong>plataformas de redes sociales</strong> como Facebook, Twitter, o YouTube, donde se eliminan sus publicaciones o se suspenden sus cuentas bajo las políticas de <strong>desinformación</strong>. Los antivacunas ven esta medida como una prueba de que hay una <strong>manipulación de la información</strong> por parte de las élites para proteger intereses políticos o económicos. Sin embargo, desde la perspectiva de la <strong>comunidad científica</strong> y de las plataformas tecnológicas, estas medidas no son un intento de censura, sino una política para combatir la <strong>desinformación</strong> que puede poner en riesgo la salud pública. Las organizaciones como la <strong>Organización Mundial de la Salud (OMS)</strong> y los <strong>Centros para el Control y la Prevención de Enfermedades (CDC)</strong> han señalado que la diseminación de información falsa sobre las vacunas puede reducir las tasas de vacunación y aumentar la propagación de enfermedades prevenibles. El objetivo de eliminar contenido antivacunas en las redes sociales es proteger al público de teorías peligrosas que no tienen <strong>base científica</strong> y que podrían causar un <strong>daño significativo</strong> a la salud colectiva. La información sobre las vacunas proviene de <strong>estudios rigurosos</strong>, y las plataformas tecnológicas están actuando para reducir la <strong>propagación de falsedades</strong> que amenazan estos esfuerzos de salud pública.'
+        }
+      };
 
-      .etiqueta {
-        margin-bottom: 15px;
-        padding: 15px;
-        border: 1px solid #ccc;
-      }
+      // Función para analizar el enunciado
+      function analyzeStatement() {
+        let input = document.getElementById('userInput').value.toLowerCase().trim();
+        let result = '';
 
-      .etiqueta p {
-        margin: 5px 0;
-      }
+        // Validación: verificar si el usuario ingresó algo
+        if (!input) {
+          document.getElementById('resultContainer').innerHTML = '<p>Por favor, ingrese un enunciado válido.</p>';
+          return;
+        }
 
-      .explicacion {
-        font-style: normal;
-        color: #000;
-        line-height: 1.5;
-      }
+        // Recorre todas las categorías
+        for (let category in categories) {
+          if (containsKeywordOrPhrase(input, categories[category].keywords)) {
+            result += `<div class="category-title">Posible componente de discurso antivacunas: ${category}</div>`;
+            result += `<p class="explicacion">${categories[category].explanation}</p>`;
+            if (category === 'Efectos adversos') {
+              result += `
+              <div class="paratexto">
+                <p><strong>Falacias y sesgos comunes:</strong></p>
+                <p>Los enunciados relacionados con los efectos adversos de las vacunas suelen presentar varios tipos de falacias y sesgos:</p>
+                <ul>
+                  <li><strong>Falacia de causalidad invertida:</strong> Se asume que, si una persona experimenta un problema de salud después de vacunarse, la vacuna debe ser la causa directa, sin considerar otras posibles razones.</li>
+                  <li><strong>Falacia de confirmación sesgada:</strong> Se busca e interpreta solo información que confirma la creencia preexistente de que las vacunas causan efectos adversos, ignorando datos o estudios que demuestran lo contrario.</li>
+                  <li><strong>Irrefutabilidad:</strong> Los defensores de estos enunciados rechazan cualquier prueba que refute su creencia, argumentando que los estudios contrarios están manipulados o son parte de una conspiración.</li>
+                  <li><strong>Desconfianza epistémica:</strong> Se desconfía de las autoridades científicas y se favorece la opinión de voces alternativas, sin basarse en evidencia sólida.</li>
+                </ul>
+              </div>`;
+            }
+            if (category === 'Alteración genética') {
+              result += `
+              <div class="paratexto">
+                <p><strong>Falacias y sesgos comunes:</strong></p>
+<p>Los enunciados relacionados con la alteración genética por vacunas suelen presentar varios tipos de falacias y sesgos:</p>
+<ul>
+    <li><strong>Falacia de causalidad invertida:</strong> Se asume que, si una persona experimenta un cambio en su salud después de la vacunación, como problemas genéticos, la vacuna debe ser la causa, sin considerar otras posibles explicaciones o sin base científica que respalde esa afirmación.</li>
+    <li><strong>Falacia de ignorancia:</strong> Se argumenta que, como no se puede probar que las vacunas no alteran el ADN, entonces deben ser peligrosas, aprovechando la falta de comprensión científica para generar miedo.</li>
+    <li><strong>Irrefutabilidad:</strong> Los defensores de este argumento tienden a rechazar cualquier evidencia científica que demuestra que las vacunas de ARNm no interactúan con el ADN, sugiriendo que toda prueba contraria es parte de un encubrimiento.</li>
+    <li><strong>Sesgo de confirmación:</strong> Las personas que sostienen esta creencia suelen buscar solo información que respalde la idea de que las vacunas alteran el ADN, ignorando estudios científicos que desmienten esta posibilidad.</li>
+    <li><strong>Desconfianza epistémica:</strong> Se desconfía de los científicos y de las instituciones médicas, creyendo que ocultan la "verdad" sobre los supuestos efectos genéticos de las vacunas, apoyándose en fuentes alternativas sin evidencia sólida.</li>
+</ul>
 
-      .user-input {
-        margin-bottom: 20px;
-      }
+              </div>`;
+            }
+            if (category === 'Teoría de la conspiración') {
+              result += `
+              <div class="paratexto">
+                <p><strong>Falacias y sesgos comunes:</strong></p>
+                <p>Contenido a completar sobre teoría de la conspiración...</p>
+              </div>`;
+            }
+            if (category === 'Censura') {
+              result += `
+              <div class="paratexto">
+                <p><strong>Falacias y sesgos comunes:</strong></p>
+<p>Los enunciados relacionados con la censura en el debate sobre las vacunas suelen presentar varios tipos de falacias y sesgos:</p>
+<ul>
+    <li><strong>Falacia de la conspiración:</strong> Se asume que cualquier acto de moderación de contenido o eliminación de desinformación es parte de un complot global para ocultar la "verdad" sobre las vacunas, sin considerar las políticas de las plataformas contra la desinformación.</li>
+    <li><strong>Falacia de apelación a la libertad de expresión:</strong> Se argumenta que cualquier moderación del discurso antivacunas es una violación de la libertad de expresión, ignorando que la difusión de información falsa que pone en peligro la salud pública puede ser regulada para proteger a la sociedad.</li>
+    <li><strong>Irrefutabilidad:</strong> Se cree que cualquier evidencia científica que contradiga las teorías antivacunas está manipulada o es parte del mismo sistema que pretende censurar, cerrando la posibilidad de diálogo o falsación de las afirmaciones.</li>
+    <li><strong>Sesgo de confirmación:</strong> Los defensores del discurso antivacunas suelen destacar solo los casos en los que se han eliminado publicaciones o se ha silenciado a críticos de las vacunas, ignorando el contexto más amplio de por qué se toman estas medidas de moderación.</li>
+    <li><strong>Desconfianza epistémica:</strong> Se desconfía de las instituciones científicas y de las plataformas tecnológicas, sugiriendo que están coludidas con las grandes farmacéuticas para ocultar la "verdad" sobre los peligros de las vacunas.</li>
+</ul>
 
-      button {
-        padding: 10px 20px;
-        margin-top: 10px;
-      }
 
-      .results {
-        margin-top: 20px;
-        padding: 15px;
-        border: 1px solid #ccc;
-      }
-    </style>
-  </head>
+              </div>`;
+            }
+            if (category === 'Composición de las vacunas') {
+              result += `
+              <div class="paratexto">
+               <p><strong>Falacias y sesgos comunes:</strong></p>
+<p>Los enunciados relacionados con la composición de las vacunas suelen presentar varios tipos de falacias y sesgos:</p>
+<ul>
+    <li><strong>Falacia de apelación a lo natural:</strong> Se asume que los ingredientes naturales son siempre mejores para el cuerpo que los ingredientes sintéticos, sin considerar que muchos compuestos sintéticos son seguros y efectivos, mientras que algunos ingredientes naturales pueden ser peligrosos.</li>
+    <li><strong>Falacia de composición:</strong> Se argumenta que si un ingrediente de la vacuna, como el mercurio o el aluminio, puede ser tóxico en grandes cantidades, entonces la vacuna que contiene pequeñas cantidades de estos compuestos también debe ser tóxica, ignorando que las dosis son seguras.</li>
+    <li><strong>Falacia de causalidad invertida:</strong> Se atribuyen problemas de salud a la presencia de ciertos ingredientes en las vacunas, como el aluminio o el timerosal, sin pruebas claras de que estos compuestos en las dosis utilizadas sean dañinos.</li>
+    <li><strong>Sesgo de confirmación:</strong> Los defensores del discurso antivacunas tienden a buscar solo estudios o testimonios que confirmen que los ingredientes de las vacunas son peligrosos, ignorando la amplia evidencia científica que demuestra su seguridad.</li>
+    <li><strong>Desconfianza epistémica:</strong> Se rechazan las explicaciones científicas sobre la seguridad de los ingredientes de las vacunas, basándose en la creencia de que las farmacéuticas y los gobiernos ocultan los efectos reales de estos compuestos.</li>
+</ul>
 
-  <body>
-    <div class="container">
-      <h1>IDApp 1.0</h1>
+              </div>`;
+            }
+            if (category === 'Experimentos') {
+              result += `
+              <div class="paratexto">
+                <p><strong>Falacias y sesgos comunes:</strong></p>
+<p>Los enunciados relacionados con la idea de que las vacunas son experimentos suelen presentar varios tipos de falacias y sesgos:</p>
+<ul>
+    <li><strong>Falacia de apelación al miedo:</strong> Se utilizan términos como "conejillo de indias" o "experimento masivo" para infundir miedo, sugiriendo que las personas están siendo sometidas a pruebas sin su consentimiento, ignorando los estrictos protocolos y fases de ensayos clínicos que siguen las vacunas antes de su aprobación.</li>
+    <li><strong>Falacia de conspiración:</strong> Se sugiere que las vacunas forman parte de un complot mundial para experimentar en la población sin su conocimiento, sin ofrecer pruebas verificables que respalden la existencia de tal conspiración.</li>
+    <li><strong>Irrefutabilidad:</strong> Cualquier evidencia que contradiga la idea de que las vacunas son experimentos encubiertos se rechaza como parte del mismo "experimento" o "conspiración", lo que impide refutar las afirmaciones con datos científicos.</li>
+    <li><strong>Sesgo de confirmación:</strong> Se seleccionan solo testimonios o artículos que refuercen la idea de que las vacunas son experimentos no controlados, ignorando la amplia evidencia que respalda la seguridad y eficacia de las vacunas tras décadas de ensayos clínicos rigurosos.</li>
+    <li><strong>Desconfianza epistémica:</strong> Se duda de los datos proporcionados por científicos y agencias de salud, sosteniendo que los ensayos clínicos no son suficientes o que están manipulados, a pesar de que las vacunas pasan por estrictos controles y revisiones antes de ser aprobadas.</li>
+</ul>
 
-      <!-- Input del usuario -->
-      <div class="user-input">
-        <p>Ingrese un segmento de texto para interpretar:</p>
-        <textarea id="userInput" placeholder="Escriba el enunciado aquí..." style="width:100%; height:100px;"></textarea><br>
-        <button onclick="analyzeStatement()">Interpretar</button>
-      </div>
-
-      <!-- Resultado -->
-      <div id="resultContainer" class="results"></div>
-
-      <!-- Código JS -->
-      <script>
-        // Diccionario de categorías con palabras clave y explicaciones
-        const categories = {
-          'Efectos adversos': {
-            keywords: ['enferman', 'matan', 'autismo', 'trastornos', 'muertes', 'súbitas', 'enfermedad', 'infarto', 'sarampión', 'viruela', 'pandemias', 'nuevas', 'enfermedades', 'parálisis', 'cáncer', 'autoinmunes', 'problemas', 'cardíacos', 'virus', 'coágulos', 'trombosis', 'infartos', 'muerte', 'linfoma', 'tumor', 'óseo', 'cerebral', 'alérgicas', 'neuropsiquiátricas', 'neurodesarrollo', 'insuficiencia', 'ovárica', 'provocan', 'producen', 'discapacidad', 'relacionadas', 'aumento', 'miocarditis', 'diseñadas', 'reducir', 'fertilidad', 'mujeres', 'hijo', 'desarrolló', 'recibir', 'meses', 'aumentan', 'infertilidad', 'efectos', 'adversos', 'tumores', 'parálisis', 'neurológicos', 'mutaciones', 'genéticas', 'niños', 'crónicas', 'neurodegenerativas', 'desarrollo', 'alergias', 'complicaciones', 'graves', 'provocada', 'respiratorios', 'virales', 'población', 'vacunada', 'riesgo', 'facial', 'derrames', 'cerebrales', 'discapacidades', 'permanentes', 'incidencia', 'inmunológicas', 'encefalitis', 'provocadas', 'secuela', 'vacunación', 'empeoramiento', 'salud', 'menstruación', 'COVID', 'elementos', 'masculina', 'vacunados', 'muriendo', 'secundarios', 'peligrosas', 'irreparables', 'venenosas', 'digestivos', 'deficiencia', 'inmunológica', 'irreversibles', 'mortalidad', 'matar', 'enfermar', 'esterilizan', 'esterilizar', 'casos', 'crónicas', 'sistema', 'diagnosticado', 'aumentó', 'peligro', 'varicela', 'autismo', 'provocadas', 'coágulos', 'mutaciones', 'inmunológicas', 'miocarditis', 'encefalitis', 'vacunación', 'provocan', 'facial', 'graves', 'alérgicas'],
-            explanation: 'Este enunciado sugiere que las vacunas pueden causar enfermedades o, incluso, la muerte. Los <strong>efectos adversos</strong> se refieren a las reacciones no deseadas que pueden surgir después de la administración de una vacuna. Estos efectos pueden variar desde reacciones leves, como dolor en el sitio de la inyección o fiebre leve, hasta eventos más graves, aunque extremadamente raros, como reacciones alérgicas severas. En los discursos <strong>antivacunas</strong>, los efectos adversos son presentados como una prueba de que las vacunas son peligrosas, sugiriendo que causan <strong>enfermedades graves</strong>, como <strong>autismo</strong>, <strong>trastornos neurológicos</strong>, o <strong>muerte súbita</strong>. Sin embargo, la <strong>comunidad científica</strong> ha demostrado repetidamente que las vacunas son <strong>seguras</strong> y que los efectos adversos graves son extremadamente infrecuentes. Los estudios han concluido que los beneficios de la vacunación en la prevención de enfermedades superan con creces los riesgos asociados a estos raros efectos secundarios. Los organismos internacionales de salud, como la <strong>Organización Mundial de la Salud (OMS)</strong> y los <strong>Centros para el Control y la Prevención de Enfermedades (CDC)</strong>, confirman que la mayoría de los efectos adversos son leves y pasajeros, mientras que los efectos más serios son monitoreados cuidadosamente y constituyen una fracción mínima de los millones de vacunas administradas anualmente.'
-          },
-          'Composición de las vacunas': {
-            keywords: ['altamente', 'envenenan', 'intoxican', 'aluminio', 'animales', 'arsénico', 'bebés', 'causa', 'cerebral', 'cerebro', 'componentes', 'contienen', 'cognitivo', 'cuerpo', 'dañinas', 'dañinos', 'dañan', 'desarrollo', 'daño', 'enferman', 'enfermedad', 'enfermedades', 'extraño', 'formaldehído', 'fragmentos', 'grafeno', 'graves', 'ingredientes', 'llenas', 'materiales', 'metálicas', 'metales', 'mercurio', 'mental', 'muertes', 'nanopartículas', 'neurodegenerativas', 'neurológicos', 'neurotóxico', 'neurotoxinas', 'nocivas', 'peligroso', 'peligrosas', 'peligrosos', 'pesados', 'problemas', 'probadas', 'productos', 'provoca', 'químicos', 'relacionado', 'salud', 'sistema', 'substancias', 'sustancias', 'tóxicas', 'súbitas', 'sustancias', 'tóxicas', 'toxinas', 'venenosas', 'viral', 'virus', 'veneno', 'venenos'],
-            explanation: 'Este enunciado afirma que las vacunas contienen ingredientes peligrosos como aluminio, mercurio y metales pesados, lo cual es parte del discurso antivacunas. El debate sobre los ingredientes de las vacunas es un aspecto central en muchos discursos antivacunas. Quienes se oponen a la vacunación suelen argumentar que <strong>las vacunas contienen sustancias tóxicas o dañinas para la salud</strong>, lo que contribuye a su <strong>desconfianza</strong> en el sistema de salud y en las instituciones que promueven las campañas de vacunación. Los ingredientes que generan más preocupación en los discursos antivacunas suelen incluir componentes como el aluminio, el mercurio (en su forma de timerosal), y el formaldehído. <strong>Se argumenta que estas sustancias pueden causar daño neurológico o enfermedades crónicas</strong> como el autismo, el cáncer, y otros trastornos neurológicos o autoinmunes. Sin embargo,<strong> la comunidad científica ha demostrado repetidamente que estos ingredientes se encuentran en cantidades seguras dentro de las vacunas</strong> y que cumplen funciones importantes, como mejorar la respuesta inmune del cuerpo o mantener la estabilidad de la vacuna.'
-          },
-          'Experimentos': {
-            keywords: ['experimento', 'experimentar', 'conejillos', 'indias', 'probadas', 'ensayos', 'insuficientes', 'pruebas', 'validadas', 'test', 'respaldo', 'experimentación', 'global', 'parte', 'masivo', 'aprobadas', 'manera', 'segura', 'usados', 'experimentales', 'riesgo', 'salud', 'médico', 'precedentes', 'clínicos', 'adecuados', 'probar', 'seguras', 'testeadas', 'correctamente', 'peligrosas', 'autorizado', 'humanos', 'consentimiento', 'inseguras', 'test', 'sucede', 'suficientemente', 'investigadas', 'lanzadas', 'gran', 'farmacéutico', 'sujetos', 'prueba', 'población', 'gran', 'escala', 'forzados', 'participar', 'inyectando', 'consecuencias', 'completamente', 'testeadas', 'lanzarlas', 'farmacéutico'],
-            explanation: 'Este enunciado sugiere que las vacunas son parte de un experimento masivo sin pruebas suficientes. En los discursos <strong>antivacunas</strong>, a menudo se afirma que las vacunas forman parte de un <strong>experimento masivo</strong> o que las personas vacunadas son utilizadas como <strong>conejillos de indias</strong> para probar sustancias no seguras. Estas afirmaciones sugieren que las vacunas se distribuyen sin haber pasado por las pruebas necesarias o que se realizan <strong>experimentos encubiertos</strong> en la población. Sin embargo, la <strong>comunidad científica</strong> y los organismos reguladores internacionales, como la <strong>Administración de Alimentos y Medicamentos (FDA)</strong> y la <strong>Agencia Europea de Medicamentos (EMA)</strong>, confirman que las vacunas deben pasar por rigurosos <strong>ensayos clínicos</strong> antes de ser aprobadas para su uso en la población. Estos ensayos incluyen varias fases de pruebas en animales y humanos para garantizar que las vacunas sean <strong>seguras</strong> y <strong>eficaces</strong>. Además, incluso después de su aprobación, las vacunas continúan siendo monitoreadas a través de sistemas de <strong>vigilancia post-comercialización</strong> para detectar posibles efectos secundarios a largo plazo. Afirmaciones de que las vacunas son parte de un <strong>experimento global</strong> no tienen fundamento en la evidencia científica. Las pruebas realizadas antes de la distribución masiva de las vacunas son exhaustivas, y cualquier efecto adverso que pueda surgir se investiga y se documenta. Las vacunas aprobadas para uso público son el resultado de <strong>décadas de investigación</strong> y de estrictos procesos regulatorios.'
-          },
-          'Alteración genética': {
-            keywords: ['alteración genética', 'adn', 'cambio de ADN', 'vacuna cambia ADN', 'modificación del ADN', 'alterar genes', 'vacunas que alteran ADN', 'mutaciones genéticas', 'vacunas que manipulan ADN', 'las vacunas modifican el ADN', 'las vacunas alteran el ADN', 'las vacunas cambian el ADN', 'las vacunas manipulan el ADN', 'las vacunas afectan la genética', 'las vacunas modifican el código genético', 'las vacunas son usadas para manipular el ADN', 'las vacunas cambian nuestra estructura genética', 'las vacunas provocan mutaciones en el ADN', 'las vacunas causan alteraciones genéticas', 'las vacunas alteran los genes humanos', 'las vacunas están diseñadas para manipular el ADN humano', 'las vacunas afectan los genes de las personas', 'las vacunas son un experimento genético', 'las vacunas producen cambios genéticos', 'las vacunas cambian la genética humana', 'las vacunas modifican el genoma', 'las vacunas alteran la información genética', 'las vacunas pueden cambiar el ADN', 'las vacunas están diseñadas para manipular los genes', 'las vacunas son una forma de ingeniería genética', 'las vacunas afectan el ADN humano', 'las vacunas alteran el genoma de las personas', 'las vacunas están diseñadas para modificar los genes', 'las vacunas provocan cambios en el ADN', 'las vacunas están alterando el material genético de las personas', 'las vacunas contienen sustancias que modifican el ADN', 'las vacunas manipulan nuestro ADN sin nuestro consentimiento', 'las vacunas están alterando la genética de la humanidad', 'las vacunas provocan mutaciones genéticas', 'las vacunas están siendo usadas para modificar genéticamente a la población', 'las vacunas pueden causar cambios permanentes en el ADN', 'las vacunas alteran el ADN y causan enfermedades', 'las vacunas cambian el ADN y provocan problemas de salud', 'las vacunas afectan el ADN de las futuras generaciones', 'las vacunas están alterando la información genética de las personas', 'las vacunas causan mutaciones genéticas peligrosas', 'las vacunas están diseñadas para cambiar el ADN humano'],
-            explanation: 'Este enunciado sugiere que las vacunas pueden alterar el ADN humano y provocar cambios genéticos.Uno de los mitos más frecuentes en los discursos <strong>antivacunas</strong> es la afirmación de que las vacunas pueden causar una <strong>alteración genética</strong> en las personas que las reciben. Se sostiene que ciertos componentes de las vacunas, como el ARN mensajero (<strong>ARNm</strong>) en las vacunas contra la COVID-19, pueden modificar el <strong>ADN humano</strong> y alterar la estructura genética de los individuos. Sin embargo, la <strong>comunidad científica</strong> ha dejado claro que estas afirmaciones no tienen base científica. Las vacunas de <strong>ARNm</strong>, como las de Pfizer-BioNTech y Moderna, funcionan instruyendo a las células para que produzcan una proteína del virus, lo que desencadena una respuesta inmune. Este proceso no afecta ni interactúa con el <strong>ADN</strong> humano de ninguna manera. El <strong>ARNm</strong> no ingresa al núcleo de las células, donde se encuentra el ADN, y además se descompone rápidamente tras cumplir su función. Diversas instituciones científicas, como la <strong>Organización Mundial de la Salud (OMS)</strong> y los <strong>Centros para el Control y la Prevención de Enfermedades (CDC)</strong>, han afirmado que las vacunas basadas en ARNm son <strong>seguras</strong> y no tienen la capacidad de <strong>modificar el ADN</strong> o causar una alteración genética.'
-          },
-          'Censura': {
-            keywords: ['cuestionan', 'redes', 'silencio', 'sociales', 'expertos', 'silenciadas', 'prohibieron', 'antivacunas', 'corporaciones', 'farmacéuticas', 'mediático', 'contenido', 'ocultan', 'gobierno', 'reprimida', 'permiten', 'controlan', 'pública', 'censuran', 'comunicación', 'informativo', 'peligros', 'debate', 'hablan', 'ocultar', 'adversos', 'gobiernos', 'diseñado', 'manipula', 'críticos', 'medios', 'manipulan', 'científica', 'bloqueada', 'efectos', 'voces', 'secundarios', 'global', 'censura', 'manipulación', 'falsa', 'médicos', 'desinformación', 'plataformas', 'suprimida', 'hablar', 'sistema', 'bloquean', 'mienten', 'mordaza', 'manipulados', 'silencio mediático', 'narrativa', 'estrategia', 'información', 'crítica', 'bloqueo', 'silenciados', 'disidencia', 'impide', 'negativos', 'daños', 'eliminan', 'científicos', 'comprados', 'silenciamiento', 'silencian', 'parte', 'público', 'opinión', 'verdad', 'tergiversación', 'datos'],
-            explanation: 'Este enunciado sugiere que hay una censura o manipulación de la verdad por parte de los medios o los gobiernos. El tema de la <strong>censura</strong> es un componente frecuente en los discursos <strong>antivacunas</strong>, donde se afirma que los gobiernos, las <strong>empresas tecnológicas</strong> y los <strong>medios de comunicación</strong> ocultan información sobre los peligros de las vacunas y su impacto real en la salud pública. Los defensores de esta teoría alegan que existe una estrategia coordinada para <strong>silenciar</strong> a los expertos que cuestionan la seguridad y eficacia de las vacunas, y para <strong>reprimir</strong> las voces que difunden narrativas antivacunas en plataformas como redes sociales o medios alternativos. Una de las principales quejas en estos discursos es que las personas que cuestionan las vacunas son censuradas en <strong>plataformas de redes sociales</strong> como Facebook, Twitter, o YouTube, donde se eliminan sus publicaciones o se suspenden sus cuentas bajo las políticas de <strong>desinformación</strong>. Los antivacunas ven esta medida como una prueba de que hay una <strong>manipulación de la información</strong> por parte de las élites para proteger intereses políticos o económicos. Sin embargo, desde la perspectiva de la <strong>comunidad científica</strong> y de las plataformas tecnológicas, estas medidas no son un intento de censura, sino una política para combatir la <strong>desinformación</strong> que puede poner en riesgo la salud pública. Las organizaciones como la <strong>Organización Mundial de la Salud (OMS)</strong> y los <strong>Centros para el Control y la Prevención de Enfermedades (CDC)</strong> han señalado que la diseminación de información falsa sobre las vacunas puede reducir las tasas de vacunación y aumentar la propagación de enfermedades prevenibles. El objetivo de eliminar contenido antivacunas en las redes sociales es proteger al público de teorías peligrosas que no tienen <strong>base científica</strong> y que podrían causar un <strong>daño significativo</strong> a la salud colectiva. La información sobre las vacunas proviene de <strong>estudios rigurosos</strong>, y las plataformas tecnológicas están actuando para reducir la <strong>propagación de falsedades</strong> que amenazan estos esfuerzos de salud pública.'
-          },
-          'Efectividad de las Vacunas': {
-            keywords: ['no funcionan', 'efectividad', 'seguridad', 'eficacia', 'insegura', 'efectiva', 'no son efectivas', 'no protegen', 'no sirven', 'no fueron probadas', 'las vacunas no funcionan', 'las vacunas no son efectivas', 'las vacunas no protegen contra las enfermedades', 'las vacunas no ofrecen inmunidad', 'las vacunas no previenen el contagio', 'buena', 'mala', 'las vacunas no sirven para detener la pandemia', 'las vacunas no fueron probadas adecuadamente', 'las vacunas no fueron suficientemente testeadas', 'las vacunas no fueron sometidas a ensayos clínicos rigurosos', 'las vacunas no se probaron en humanos antes de ser lanzadas', 'las vacunas no han sido completamente probadas', 'las vacunas no fueron testadas lo suficiente', 'las vacunas no tienen suficiente respaldo científico', 'las vacunas no fueron aprobadas por todas las agencias de salud', 'las vacunas no protegen de la nueva variante', 'las vacunas no han demostrado ser efectivas', 'las vacunas no son seguras ni efectivas', 'las vacunas no funcionan como se esperaba', 'las vacunas no han sido comprobadas para su eficacia', 'las vacunas fallan en ofrecer protección', 'las vacunas no han sido probadas correctamente', 'las vacunas no son la solución', 'las vacunas no cumplen con los estándares de efectividad', 'las vacunas no son lo suficientemente efectivas para detener el virus', 'las vacunas no fueron suficientemente testeadas en población vulnerable', 'las vacunas no fueron probadas en el largo plazo', 'las vacunas no fueron sometidas a pruebas suficientes antes de ser distribuidas', 'las vacunas no son 100% efectivas', 'las vacunas no funcionan contra todas las variantes', 'las vacunas no detienen la transmisión del virus', 'las vacunas no previenen el contagio de nuevas cepas', 'las vacunas no tienen resultados concluyentes sobre su efectividad', 'las vacunas no ofrecen protección completa', 'las vacunas no fueron suficientemente evaluadas', 'las vacunas no impiden la propagación del virus', 'las vacunas no son útiles contra nuevas variantes', 'las vacunas fallan en ofrecer una protección duradera', 'las vacunas no han sido probadas en suficientes grupos de control', 'las vacunas no han pasado pruebas rigurosas de seguridad', 'las vacunas no ofrecen inmunidad a largo plazo', 'las vacunas no son lo suficientemente efectivas para detener la pandemia', 'las vacunas no tienen la eficacia que se esperaba'],
-            explanation: 'Este enunciado sugiere que la efectividad y eficacia de las vacunas no fue probada. La <strong>efectividad de las vacunas</strong> se refiere a su capacidad para prevenir enfermedades en la vida real, fuera de los ensayos clínicos controlados. Este es uno de los pilares fundamentales de los programas de vacunación global, ya que las vacunas han demostrado ser altamente eficaces en la reducción y erradicación de enfermedades como la <strong>viruela</strong>, el <strong>sarampión</strong>, la <strong>poliomielitis</strong>, y más recientemente, en la mitigación de la pandemia de <strong>COVID-19</strong>. En los discursos <strong>antivacunas</strong>, es común escuchar afirmaciones que cuestionan la <strong>efectividad</strong> de las vacunas, alegando que no previenen enfermedades, que no han sido <strong>probadas adecuadamente</strong>, o que su eficacia ha sido exagerada por las <strong>farmacéuticas</strong>. Sin embargo, la evidencia científica respalda que las vacunas han sido responsables de la <strong>reducción dramática</strong> de las tasas de enfermedades infecciosas y de <strong>salvar millones de vidas</strong> en todo el mundo. Las vacunas pasan por rigurosos <strong>ensayos clínicos</strong> en diferentes fases para garantizar tanto su <strong>seguridad</strong> como su <strong>efectividad</strong>. Estos ensayos se realizan con miles de voluntarios antes de que una vacuna se autorice para su uso masivo. Una vez aprobadas, las vacunas continúan siendo evaluadas a través de <strong>vigilancia epidemiológica</strong> y <strong>datos del mundo real</strong>, lo que ha confirmado su alta efectividad en la prevención de enfermedades graves y la reducción de la mortalidad. Es importante destacar que, aunque ninguna vacuna es 100% efectiva, las vacunas no solo protegen al individuo vacunado, sino que también contribuyen a la <strong>inmunidad de rebaño</strong>, protegiendo a quienes no pueden vacunarse por razones médicas.'
-          },
-          'Teoría de la Conspiración': {
-            keywords: ['nuevo orden mundial', 'domminar', 'manipulación', 'engaño', 'manipular', 'someter', 'terrorismo', 'terrorismo psicológico', 'denuncia', 'someter', 'propaganda', 'genocidio', 'sometimiento', 'plandemia', 'poder', 'plan', 'control', 'reducen la población', 'manipulación', 'control', 'manipulación', 'nuevo orden mundial', 'plandemia', 'agenda 2030', 'reducen la población', 'despoblación', 'reducir la fertilidad', 'crimen organizado', 'someter a la humanidad', 'conspiración para dominar', 'control mundial', 'elites globales', 'plan genocida', 'conspiración', 'dominio de la población', 'Las farmacéuticas están lucrando con las vacunas a costa de la salud pública', 'El COVID-19 fue creado para obligar a la vacunación masiva y controlar a la población', 'Nos están controlando a través de las vacunas y la red 5G', 'Los medios de comunicación están ocultando los efectos adversos de las vacunas', 'inmunidad', 'rebaño', 'mentira', 'farsa', 'industria farmacéutica', 'laboratorio', 'rentabilidad', 'gobierno', 'gobiernos', 'dinero', 'intereses financieros', 'fabricantes de vacunas', 'eugenesia', 'control', 'control poblacional', 'nuevo orden mundial', 'plandemia', 'las vacunas son una herramienta de control', 'las vacunas están diseñadas para reducir la población', 'las vacunas forman parte de un plan global', 'el gobierno utiliza las vacunas para controlarnos', 'las élites están detrás de las vacunas', 'las vacunas son parte de una conspiración para eliminar a la población', 'las vacunas están diseñadas para enfermar a la gente', 'las vacunas son parte de un plan para disminuir la fertilidad', 'las vacunas se usan para controlar a la población', 'la vacunación masiva es un experimento de control social', 'las vacunas son parte de una agenda oculta', 'el objetivo de las vacunas es el control masivo de la población', 'la agenda 2030 usa las vacunas para controlar a la humanidad', 'las farmacéuticas están conspirando para ganar dinero con las vacunas', 'las vacunas son parte de una conspiración global', 'las vacunas son un experimento para manipular a la población', 'las vacunas se usan para exterminar a la población', 'las vacunas forman parte de un complot para destruir la humanidad', 'el plan de las vacunas es reducir la fertilidad y la población mundial', 'las vacunas son una estrategia para la dominación mundial', 'las vacunas son parte de una conspiración entre los gobiernos y las farmacéuticas', 'las vacunas se utilizan para implantar microchips y controlarnos', 'las vacunas son parte de una conspiración para manipular el ADN', 'las vacunas están diseñadas para matar a la gente', 'las vacunas son un fraude organizado por las grandes farmacéuticas', 'las vacunas son parte de una operación secreta para controlar a la población', 'las vacunas son una herramienta de manipulación masiva', 'las vacunas son una conspiración de las élites globales', 'el objetivo de las vacunas es disminuir la población mundial', 'las vacunas son parte de una operación secreta para controlar el mundo', 'la vacunación es una conspiración para someter a la humanidad', 'las vacunas están diseñadas para modificar el ADN de las personas', 'las vacunas son parte de un plan para el control de la mente', 'las vacunas forman parte de una agenda de control de la población', 'las vacunas son utilizadas para manipular genéticamente a la población', 'las vacunas se usan para esterilizar a la gente', 'el gobierno está usando las vacunas para controlar la fertilidad', 'las vacunas son parte de una conspiración para el control social', 'las vacunas forman parte de una operación de exterminio masivo', 'las vacunas son una estrategia para reducir el número de personas en el mundo', 'las vacunas son un engaño para el control de la población', 'las vacunas forman parte de un plan para controlar el mundo a través de la salud', 'la ciencia miente', 'los médicos mienten', 'mentira', 'mentir', 'gobiernos', 'farmacéuticas', 'dominio', 'corporaciones'],
-            explanation: 'Este enunciado sugiere que las vacunas son parte de una conspiración global. Las <strong>teorías de la conspiración</strong> relacionadas con las vacunas son un fenómeno frecuente en los discursos <strong>antivacunas</strong>, donde se sugiere que las vacunas forman parte de un complot más amplio por parte de gobiernos, <strong>farmacéuticas</strong> u otras organizaciones para <strong>controlar</strong>, <strong>manipular</strong> o <strong>dañar</strong> a la población. Estas teorías incluyen ideas como que las vacunas son utilizadas para reducir la población, insertar <strong>microchips</strong> o modificar el comportamiento de las personas. Uno de los conceptos centrales de estas teorías es que las instituciones oficiales están ocultando la "verdad" sobre los <strong>peligros</strong> de las vacunas, y que la información oficial está <strong>manipulada</strong> para proteger los intereses de las <strong>élites</strong>. Las teorías de la conspiración suelen apoyarse en la <strong>desconfianza epistémica</strong>, es decir, la falta de confianza en los <strong>científicos</strong>, los <strong>gobiernos</strong> y las <strong>agencias de salud pública</strong>. Desde la perspectiva de la <strong>comunidad científica</strong>, las teorías de la conspiración carecen de fundamento y no tienen respaldo en la evidencia. La gran mayoría de las afirmaciones conspirativas son fácilmente refutadas por los datos y los estudios científicos rigurosos que demuestran la <strong>seguridad</strong> y <strong>eficacia</strong> de las vacunas. Organizaciones como la <strong>Organización Mundial de la Salud (OMS)</strong> y los <strong>Centros para el Control y la Prevención de Enfermedades (CDC)</strong> han publicado numerosas investigaciones que desmienten estas teorías, reafirmando la integridad de los procesos de desarrollo, prueba y aprobación de las vacunas. Además, las teorías de la conspiración se caracterizan por su <strong>irrefutabilidad</strong>, lo que significa que los defensores de estas creencias suelen rechazar cualquier evidencia que contradiga sus ideas, afirmando que dicha evidencia es parte del propio encubrimiento.'
-          },
-          'Microchips y Vigilancia': {
-            keywords: ['microchips', 'control con microchips', 'chip', 'chips', 'rastrear a la población', 'microchips en las vacunas', 'seguimiento tecnológico', 'control mediante tecnología', 'microchip en el cuerpo', 'las vacunas contienen microchips', 'nos están implantando microchips con las vacunas', 'las vacunas se usan para insertar microchips', 'las vacunas contienen tecnología de control', 'las vacunas tienen dispositivos para controlar a las personas', 'las vacunas son usadas para vigilancia masiva', 'nos están monitoreando a través de las vacunas', 'las vacunas contienen tecnología de seguimiento', 'nos están implantando dispositivos de rastreo con las vacunas', 'las vacunas están diseñadas para implantar microchips', 'las vacunas nos están controlando con microchips', 'las vacunas contienen tecnología para vigilar a la población', 'las vacunas son parte de un plan para rastrear a las personas', 'las vacunas tienen microchips para controlar a la población', 'las vacunas contienen dispositivos de rastreo', 'nos están vigilando a través de los microchips en las vacunas', 'las vacunas están diseñadas para implantar dispositivos de control', 'las vacunas se usan para implantar tecnología de seguimiento', 'las vacunas contienen microchips para monitorear a la población', 'nos están controlando a través de las vacunas con microchips', 'las vacunas están implantando tecnología de rastreo en las personas', 'las vacunas contienen microchips que monitorean a las personas', 'nos están insertando microchips con las vacunas para controlarnos', 'las vacunas están implantando dispositivos de vigilancia', 'las vacunas son usadas para rastrearnos a través de microchips', 'las vacunas están equipadas con tecnología de seguimiento', 'las vacunas contienen microchips que envían datos a los gobiernos', 'las vacunas están implantando tecnología de monitoreo en las personas', 'las vacunas contienen tecnología secreta para controlar a la población', 'las vacunas son parte de un plan global para implantar microchips', 'nos están controlando con microchips a través de las vacunas'],
-            explanation: 'Este enunciado sugiere que las vacunas contienen microchips para monitorear a la población. Una de las teorías conspirativas más difundidas en los discursos <strong>antivacunas</strong> es la creencia de que las vacunas contienen <strong>microchips</strong> u otros dispositivos que permiten la <strong>vigilancia masiva</strong> y el control de la población. Esta teoría sugiere que las vacunas, particularmente las desarrolladas para la <strong>COVID-19</strong>, están diseñadas para insertar dispositivos de seguimiento en los cuerpos de las personas, con el objetivo de <strong>controlar</strong> sus movimientos o <strong>monitorear</strong> su salud sin su consentimiento. Esta teoría ha sido alimentada por figuras públicas y ciertos grupos antivacunas, quienes afirman que organizaciones como los gobiernos o las <strong>corporaciones tecnológicas</strong> utilizan las vacunas como un medio para establecer una forma de <strong>control social</strong> a través de la <strong>vigilancia electrónica</strong>. Los defensores de esta teoría a menudo señalan como "prueba" la participación de organizaciones como la <strong>Fundación Bill y Melinda Gates</strong> en el desarrollo de vacunas y la tecnología médica. Sin embargo, la <strong>comunidad científica</strong> ha desmentido por completo estas afirmaciones. No existe ninguna evidencia de que las vacunas contengan microchips ni de que haya un intento de <strong>vigilancia</strong> o <strong>control</strong> a través de ellas. Las vacunas contra la COVID-19 y otras enfermedades han sido desarrolladas siguiendo estrictos protocolos científicos y no incluyen tecnología de rastreo o dispositivos de monitoreo. Las agencias de salud, como la <strong>Organización Mundial de la Salud (OMS)</strong> y los <strong>Centros para el Control y la Prevención de Enfermedades (CDC)</strong>, han afirmado de manera clara que no existen <strong>microchips</strong> en las vacunas y que estas teorías no tienen base en la realidad. Además, las vacunas son sometidas a controles rigurosos y transparentes, que incluyen la revisión de sus componentes por autoridades sanitarias independientes.'
-          }
-        };
-        // Función para analizar el enunciado
-        function analyzeStatement() {
-          let input = document.getElementById('userInput').value.toLowerCase().trim();
-          let result = '';
-          // Validación: verificar si el usuario ingresó algo
-          if (!input) {
-            document.getElementById('resultContainer').innerHTML = '<p>Por favor, ingrese un enunciado válido.</p>';
-            return;
-          }
-          // Recorre todas las categorías
-          for (let category in categories) {
-            if (containsKeywordOrPhrase(input, categories[category].keywords)) {
-              result += `<p><strong>Componente textual de discurso antivacuna detectado:</strong> ${category}</p>`;
-              result += `<p class="explicacion">${categories[category].explanation}</p>`;
+              </div>`;
             }
           }
-          // Si no se detectaron palabras clave
-          if (result === '') {
-            result = '<p>No se detectaron palabras clave o expresiones antivacunas relevantes.</p>';
-          }
-          // Mostrar el resultado
-          document.getElementById('resultContainer').innerHTML = result;
         }
-        // Función auxiliar para buscar cualquier palabra clave en el enunciado
-        function containsKeywordOrPhrase(input, keywords) {
-          return keywords.some(keyword => input.includes(keyword)); // Verifica si alguna palabra clave está en el enunciado
-        }
-      </script>
-    </div>
-  </body>
 
-  </html>
+        // Si no se detectaron palabras clave
+        if (result === '') {
+          result = '<p>No se detectaron palabras clave o expresiones antivacunas relevantes.</p>';
+        }
+
+        // Mostrar el resultado
+        document.getElementById('resultContainer').innerHTML = result;
+      }
+
+      // Función auxiliar para buscar cualquier palabra clave en el enunciado
+      function containsKeywordOrPhrase(input, keywords) {
+        return keywords.some(keyword => input.includes(keyword));
+      }
+    </script>
+  </div>
+</body>
+
+</html>
