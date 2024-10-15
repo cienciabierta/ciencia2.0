@@ -1,108 +1,53 @@
-# IDApp 1.0 - Interpreter of Antivaccine Discourses
+<h1>IDApp 1.0 - Intérprete de Discursos Antivacunas</h1>
 
-## Overview
+<h2>Visión general</h2>
+<p>IDApp 1.0 es una herramienta diseñada para identificar e interpretar discursos antivacunas. La herramienta se basa en modelos teóricos de los campos de la comprensión pública de la ciencia, la epistemología del testimonio y la comunicación transmediática. Su objetivo principal es categorizar las narrativas antivacunas, proporcionando información sobre los mecanismos que contribuyen a la proliferación del pensamiento conspirativo y la desinformación.</p>
 
-**IDApp 1.0** is a powerful tool designed to **analyze and interpret antivaccine discourses** on social media platforms. The tool is based on theoretical models from the fields of **public understanding of science**, **epistemology of testimony**, and **transmedia communication**. Its primary goal is to identify and categorize antivaccine narratives, providing insights into the mechanisms that contribute to the proliferation of **conspiratorial thinking** and **misinformation**.
+<p>Este proyecto fue desarrollado como parte de la iniciativa de investigación "Modelos de Comprensión Pública de la Ciencia en la Comunicación Interparadigmática de Matrices Disciplinarias de Expertos/Agentes de Interfaz y Movimientos Antivacunas en Redes Sociales Digitales" del Departamento de Ciencias de la Salud de la Universidad Nacional de La Matanza (Argentina).</p>
 
-This project was developed as part of the research initiative **"Models of Public Understanding of Science in the Interparadigmatic Communication of Disciplinary Matrices of Experts/Interface Agents and Antivaccine Movements in Digital Social Networks"** at the **Health Sciences Department of the National University of La Matanza (Argentina)**.
+<h2>Características</h2>
+<ul>
+  <li><strong>Análisis automatizado de discursos:</strong> IDApp 1.0 utiliza categorías y códigos predefinidos para analizar la estructura y el contenido de los discursos antivacunas.</li>
+  <li><strong>Clasificación de narrativas:</strong> La aplicación identifica temas clave antivacunas como la desconfianza en la autoridad científica, la promoción de figuras alternativas, el sesgo de confirmación y las teorías de conspiración globales sobre vacunas.</li>
+  <li><strong>Código abierto:</strong> IDApp 1.0 es una herramienta gratuita y de código abierto, en línea con los principios de la ciencia abierta. Se aceptan contribuciones para mejorar el rendimiento de la herramienta y expandir su aplicabilidad a otros campos de la desinformación.</li>
+  <li><strong>Compatibilidad multiplataforma:</strong> La aplicación está diseñada para analizar discursos antivacunas formulados en varias plataformas de redes sociales, incluidas Facebook, X (anteriormente Twitter), Instagram, Telegram y YouTube, etc.</li>
+</ul>
 
-## Features
+<h2>Uso</h2>
+<p><strong>Datos de entrada:</strong> La aplicación toma datos crudos de plataformas de redes sociales. Puedes ingresar estos datos (comentarios, publicaciones o discusiones de usuarios sobre vacunas).</p>
 
-- **Automated discourse analysis**: IDApp 1.0 uses pre-defined variables and indicators to analyze the structure and content of antivaccine discourses.
-- **Categorization of narratives**: The app identifies key antivaccine themes such as **distrust in scientific authority**, **promotion of alternative figures**, **confirmation bias**, and **global vaccine conspiracy theories**.
-- **Open-source**: IDApp 1.0 is a free and open-source tool, in line with the principles of **open science**. Contributions are welcome to improve the tool’s performance and expand its applicability to other fields of misinformation.
-- **Multiplatform compatibility**: The app is designed to analyze data from various social media platforms, including Facebook, X (formerly Twitter), Instagram, Telegram, and YouTube.
+<p><strong>Proceso de análisis:</strong> IDApp 1.0 analizará los datos de entrada, aplicando las categorías y códigos definidos para interpretar las narrativas antivacunas de acuerdo con el marco teórico definido. La salida incluye:</p>
+<ul>
+  <li>Categorización del discurso antivacunas basada en temas predefinidos (por ejemplo, desconfianza en la ciencia, teorías conspirativas, falacias).</li>
 
-## Installation
+<h2>Contribuciones</h2>
+<p>Agradecemos las contribuciones para mejorar IDApp 1.0 y expandir su aplicabilidad. Puedes contribuir de las siguientes maneras:</p>
+<ul>
+  <li>Reportar errores o sugerir mejoras a través de GitHub Issues.</li>
+  <li>Enviar pull requests con nuevas funciones, optimizaciones o documentación.</li>
+  <li>Traducir la aplicación para su uso en diferentes idiomas y contextos culturales, con el fin de analizar la desinformación a nivel global.</li>
+</ul>
 
-To run **IDApp 1.0**, you need the following:
+<h2>Hoja de ruta</h2>
+<p>Planeamos extender IDApp 1.0 con las siguientes características:</p>
+<ul>
+  <li>Soporte para plataformas adicionales de redes sociales (por ejemplo, Reddit, TikTok).</li>
+  <li>Análisis de sentimiento mejorado para una comprensión más profunda de los desencadenantes emocionales en los discursos antivacunas.</li>
+  <li>Un tablero para monitoreo en tiempo real de las discusiones antivacunas en redes sociales.</li>
+</ul>
 
-### Prerequisites
+<h2>Licencia</h2>
+<p>Este proyecto tiene una licencia de acceso abierto. Ha sido desarrollado por Fernando Proto Gutierrez, Nora A. Carra, María Celeste Colombo, María Jimena Esperón, Mario Sequeira, Silvina Tuñón, Leonardo Battaglia, Patricia Cruzate, Carlos Mario Fontau, Laura Bellini, Diego Felici, Miriam Ecalle., en el Departamento de Ciencias de la Salud de la Universidad Nacional de La Matanza.</p>
 
-- Python 3.x
-- Git
-- The following Python libraries:
-  - Pandas
-  - Numpy
-  - Matplotlib
-  - Scikit-learn
-  - NLTK (Natural Language Toolkit)
+<h2>Citación</h2>
+<p>Si usas IDApp 1.0 en tu investigación, por favor cita el siguiente trabajo:</p>
+<blockquote>
+Proto Gutierrez, F., et al., <i>Epistemología política de la infodemia</i>. Arkho Ediciones, 2024.
+</blockquote>
 
-### Installation steps
-
-1. Clone the repository:
-
-   ```bash
-   git clone https://github.com/yourusername/IDApp.git
-   ```
-
-2. Navigate to the project directory:
-
-   ```bash
-   cd IDApp
-   ```
-
-3. Install the required libraries:
-
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-4. Run the application:
-
-   ```bash
-   python idapp.py
-   ```
-
-## Usage
-
-1. **Input data**: The application takes **raw data** from social media platforms. You can input this data in CSV format, containing text fields with user comments, posts, or discussions about vaccines.
-
-2. **Analysis process**: IDApp 1.0 will analyze the input data, applying the defined variables and indicators to categorize the antivaccine narratives. The output includes:
-   - **Categorization** of antivaccine discourse based on predefined themes (e.g., distrust in science, conspiracy theories, fallacies).
-   - **Statistical visualization** of the frequency and distribution of different types of antivaccine narratives across platforms.
-
-3. **Results**: The results can be exported in CSV or visualized in charts, providing insight into how antivaccine narratives spread on different platforms.
-
-## Variables and Indicators
-
-The analysis in IDApp 1.0 is based on the following **key variables**:
-
-- **Deferential Obliqueness**: Users who appeal to alternative figures (e.g., non-scientific authorities or dissenting scientists).
-- **Community Gatekeeping**: The narrative strategies used to reinforce group beliefs against external criticism.
-- **Confirmation Bias**: Selective presentation of evidence supporting the antivaccine position, while dismissing contradictory information.
-- **Conspiracy Theories**: Narratives about global conspiracies involving vaccines, pharmaceutical companies, and governments.
-- **Propaganda and Victimization**: The framing of the antivaccine community as oppressed or targeted by mainstream authorities.
-
-## Contribution
-
-We welcome contributions to improve **IDApp 1.0** and expand its applicability. You can contribute by:
-
-- **Reporting bugs** or suggesting improvements via GitHub Issues.
-- **Submitting pull requests** with new features, optimizations, or documentation.
-- **Translating the app** for use in different languages and cultural contexts to analyze misinformation globally.
-
-## Roadmap
-
-We plan to extend **IDApp 1.0** with the following features:
-
-- Support for additional social media platforms (e.g., Reddit, TikTok).
-- Enhanced sentiment analysis for a deeper understanding of emotional triggers in antivaccine discourses.
-- A dashboard for real-time monitoring of antivaccine discussions across social media.
-
-## License
-
-This project has an open access licence. It has been developed by Fernando Proto Gutierrez et al., at the Departamento de Ciencias de la Salud de la Universidad Nacional de La Matanza.
-
-## Citation
-
-If you use **IDApp 1.0** in your research, please cite the following paper:
-
-Proto Gutierrez, F., et al., **Epistemología política de la infodemia libertaria-antivacunas**. Arkho Ediciones, 2024.
-
-## Contact
-
-For any inquiries or support requests, feel free to contact us at:
-
-- Email: gproto@unalam.edu
-- GitHub: https://github.com/cienciabierta/ciencia2.0
+<h2>Contacto</h2>
+<p>Para cualquier consulta o solicitud de soporte, no dudes en contactarnos en:</p>
+<ul>
+  <li>Email: gproto@unalam.edu</li>
+  <li>GitHub: <a href="https://github.com/cienciabierta/ciencia2.0">https://github.com/cienciabierta/ciencia2.0</a></li>
+</ul>
