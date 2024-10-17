@@ -42,7 +42,7 @@
 <h2>Citación</h2>
 <p>Si usas IDApp 1.0 en tu investigación, por favor cita el siguiente trabajo:</p>
 <blockquote>
-Proto Gutierrez, F., et al., <i>Epistemología política de la infodemia</i>. Arkho Ediciones, 2024.
+Proto Gutierrez, F., et al., <i>IDApp 1.0</i>. Universidad Nacional de La Matanza, 2024.
 </blockquote>
 
 <h2>Contacto</h2>
