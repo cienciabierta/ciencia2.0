@@ -45,7 +45,7 @@ Acceso a versión actual: https://codepen.io/pen?template=abeWzYP
 <h2>Citación</h2>
 <p>Si usas IDApp 1.0 en tu investigación, por favor cita el siguiente trabajo:</p>
 <blockquote>
-Proto Gutierrez, F., et al., <i>IDApp</i>. Universidad Nacional de La Matanza, 2024.
+Proto Gutierrez, F., Carra, N., Colombo, C., Esperón, J., Sequeira, M., Tuñón, S., Battaglia, L., Cruzate, P., Fontau, C., Bellini, L., Ecalle, M., (2024) <i>IDApp</i>. Universidad Nacional de La Matanza.
 </blockquote>
 
 <h2>Contacto</h2>
