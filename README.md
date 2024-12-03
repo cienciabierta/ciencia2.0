@@ -3,7 +3,10 @@
 <h2>Visión general</h2>
 <p>IDApp 1.0 es una herramienta diseñada para identificar e interpretar discursos antivacunas. La herramienta se basa en modelos teóricos de los campos de la comprensión pública de la ciencia, la epistemología del testimonio y la comunicación transmediática. Su objetivo principal es categorizar las narrativas antivacunas, proporcionando información sobre los mecanismos que contribuyen a la proliferación del pensamiento conspirativo y la desinformación.</p>
 
-<p>Este proyecto fue desarrollado como parte de la iniciativa de investigación "Modelos de Comprensión Pública de la Ciencia en la Comunicación Interparadigmática de Matrices Disciplinarias de Expertos/Agentes de Interfaz y Movimientos Antivacunas en Redes Sociales Digitales" del Departamento de Ciencias de la Salud de la Universidad Nacional de La Matanza (Argentina).</p>
+<p>Este proyecto fue desarrollado como parte de la iniciativa de investigación "Modelos de Comprensión Pública de la Ciencia en la Comunicación Interparadigmática de Matrices Disciplinarias de Expertos/Agentes de Interfaz y Movimientos Antivacunas en Redes Sociales Digitales" del Departamento de Ciencias de la Salud de la Universidad Nacional de La Matanza (Argentina).
+Acceso a versión actual: https://codepen.io/pen?template=abeWzYP
+
+</p>
 
 <h2>Características</h2>
 <ul>
